@@ -1,0 +1,47 @@
+config BR2_PACKAGE_TI_K3_IMAGE_GEN
+	bool "ti-k3-image-gen"
+	depends on BR2_PACKAGE_TI_K3_R5_LOADER_NEXT
+	help
+	  System Firmware (SYSFW) and Configuration Image Generator TI K3 Family
+	  SoCs.
+
+	  https://git.ti.com/cgit/k3-image-gen/k3-image-gen/
+
+if BR2_PACKAGE_TI_K3_IMAGE_GEN
+choice
+	prompt "SoC firmware type for image gen"
+	default BR2_PACKAGE_TI_K3_IMAGE_GEN_FW_TYPE_TIFS
+
+config BR2_PACKAGE_TI_K3_IMAGE_GEN_FW_TYPE_TIFS
+	bool "Firmware type TIFS"
+
+config BR2_PACKAGE_TI_K3_IMAGE_GEN_FW_TYPE_TISCI
+	bool "Firmware type TISCI"
+
+endchoice
+
+config BR2_PACKAGE_TI_K3_IMAGE_GEN_SOC
+	string "SoC"
+	help
+	  Supported target SoC. Example: am62x
+
+config BR2_PACKAGE_TI_K3_IMAGE_GEN_SOC_TYPE
+	string "security type"
+	help
+
+	  "gp" General Purpose devices
+	  "hs-fs" High Security - Field Securable devices
+	  "hs" High Security - Security Enforcing devices
+
+	  **Note**: for all High Security device variants the environment variable
+	  **TI_SECURE_DEV_PKG** should be defined to point to the TI Secure
+	  Development Tools package. This will be used for setting the **KEY**
+	  and **SW_REV** values. See:
+
+	  https://git.ti.com/cgit/security-development-tools/core-secdev-k3
+
+config BR2_PACKAGE_TI_K3_IMAGE_GEN_CONFIG
+	string "config type"
+	help
+	  "sk" or "evm"
+endif
