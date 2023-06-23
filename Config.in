@@ -1,1 +1,2 @@
+source "$NERVES_DEFCONFIG_DIR/package/ti-k3-secdev/Config.in"
 source "$NERVES_DEFCONFIG_DIR/package/ti-linux-firmware/Config.in"
