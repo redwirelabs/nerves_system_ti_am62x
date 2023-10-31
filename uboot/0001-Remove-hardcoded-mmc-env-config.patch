@@ -1,0 +1,29 @@
+From 9904ae98ab4346dd04f7f47d57b43e6bf3f70301 Mon Sep 17 00:00:00 2001
+From: abelino <abelino.romo@gmail.com>
+Date: Sun, 29 Oct 2023 18:04:42 -0700
+Subject: [PATCH] Remove hardcoded mmc env config
+
+---
+ include/configs/am62x_evm.h | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/include/configs/am62x_evm.h b/include/configs/am62x_evm.h
+index 97bd7c1fd7..e7d1006822 100644
+--- a/include/configs/am62x_evm.h
++++ b/include/configs/am62x_evm.h
+@@ -533,12 +533,6 @@
+ /* Now for the remaining common defines */
+ #include <configs/ti_armv7_common.h>
+ 
+-/* MMC ENV related defines */
+-#ifdef CONFIG_ENV_IS_IN_MMC
+-#define CONFIG_SYS_MMC_ENV_DEV		0
+-#define CONFIG_SYS_MMC_ENV_PART		1
+-#endif
+-
+ #ifdef CONFIG_SYS_MALLOC_LEN
+ #undef CONFIG_SYS_MALLOC_LEN
+ #endif
+-- 
+2.41.0
+
