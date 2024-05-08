@@ -51,11 +51,11 @@ defmodule NervesSystemAM62X.MixProject do
       ],
       env: [
         {"TARGET_ARCH", "aarch64"},
-        {"TARGET_CPU", "cortex_a72"},
+        {"TARGET_CPU", "cortex_a53"},
         {"TARGET_OS", "linux"},
         {"TARGET_ABI", "gnu"},
         {"TARGET_GCC_FLAGS",
-         "-mabi=lp64 -fstack-protector-strong -mcpu=cortex-a72 -fPIE -pie -Wl,-z,now -Wl,-z,relro"}
+         "-mabi=lp64 -fstack-protector-strong -mcpu=cortex-a53 -fPIE -pie -Wl,-z,now -Wl,-z,relro"}
       ],
       checksum: package_files()
     ]
