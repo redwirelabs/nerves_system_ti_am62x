@@ -44,7 +44,7 @@ TI_K3_R5_LOADER_NEXT_DEPENDENCIES = \
 	host-python-jsonschema2 \
 	host-python-pyrsistent2 \
 	host-python-pyyaml \
-	ti-k3-boot-firmware
+	ti-k3-boot-firmware-next
 
 TI_K3_R5_LOADER_NEXT_MAKE = $(BR2_MAKE)
 TI_K3_R5_LOADER_NEXT_MAKE_ENV = $(TARGET_MAKE_ENV)
