@@ -1,5 +1,5 @@
 config BR2_PACKAGE_TI_K3_R5_LOADER_NEXT
-	bool "ti-k3-r5-loader"
+	bool "ti-k3-r5-loader-next"
 	depends on BR2_aarch64
 	help
 	  Separate U-Boot SPL build for R5 core on TI's K3 processors.
