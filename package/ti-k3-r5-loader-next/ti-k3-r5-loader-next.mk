@@ -72,7 +72,7 @@ endef
 
 define TI_K3_R5_LOADER_NEXT_INSTALL_IMAGES_CMDS
 	cp $(@D)/tiboot3-*.bin $(BINARIES_DIR)/
-	cp $(@D)/tiboot3-am62x-gp-evm.bin $(BINARIES_DIR)/tiboot3.bin
+	cp $(@D)/tiboot3-am62x-hs-fs-evm.bin $(BINARIES_DIR)/tiboot3.bin
 endef
 
 $(eval $(kconfig-package))
