@@ -1,0 +1,63 @@
+From f0a45b9a907b23b0cc6d099acf85a733db61b1e2 Mon Sep 17 00:00:00 2001
+From: Alex McLain <alex@alexmclain.com>
+Date: Sun, 16 Jun 2024 01:20:08 -0700
+Subject: [PATCH 2/2] WIP
+
+---
+ arch/arm64/boot/dts/ti/k3-am625-sk.dts | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-am625-sk.dts b/arch/arm64/boot/dts/ti/k3-am625-sk.dts
+index d792b3142002..94e61445889a 100644
+--- a/arch/arm64/boot/dts/ti/k3-am625-sk.dts
++++ b/arch/arm64/boot/dts/ti/k3-am625-sk.dts
+@@ -15,6 +15,7 @@ / {
+ 
+ 	aliases {
+ 		serial0 = &main_uart5;
++		spi2 = &main_spi2;
+ 	};
+ 
+ 	opp-table {
+@@ -200,6 +201,15 @@ AM62X_IOPAD(0x11c, PIN_INPUT, 0) /* (#N/A) MMC2_CLKB */
+ 		>;
+ 	};
+ 
++	main_spi2_pins_default: main-spi2-pins-default {
++		pinctrl-single,pins = <
++			AM62X_IOPAD(0x01b0, PIN_INPUT, 1) /* (A20) MCASP0_ACLKR.SPI2_CLK */
++			AM62X_IOPAD(0x01ac, PIN_INPUT, 1) /* (E19) MCASP0_AFSR.SPI2_CS0 */
++			AM62X_IOPAD(0x0194, PIN_INPUT, 1) /* (B19) MCASP0_AXR3.SPI2_D0 */
++			AM62X_IOPAD(0x0198, PIN_INPUT, 1) /* (A19) MCASP0_AXR2.SPI2_D1 */
++		>;
++	};
++
+ 	main_uart5_pins_default: main-uart5-pins-default {
+ 		pinctrl-single,pins = <
+ 			AM62X_IOPAD(0x01d8, PIN_INPUT, 1) /* (C15) MCAN0_TX.UART5_RXD */
+@@ -243,12 +253,22 @@ exp1: gpio@22 {
+ 	};
+ };
+ 
++&main_spi2 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&main_spi2_pins_default>;
++};
++
+ &main_uart5 {
+ 	status = "okay";
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&main_uart5_pins_default>;
+ };
+ 
++&mcasp0 {
++	status = "disabled";
++};
++
+ &sdhci1 {
+ 	vmmc-supply = <&vdd_mmc1>;
+ 	vqmmc-supply = <&vdd_sd_dv>;
+-- 
+2.25.1
+
