@@ -1,0 +1,54 @@
+From 3759718dbddccce6e8bab5f8b63e440e4f9c0473 Mon Sep 17 00:00:00 2001
+From: Alex McLain <alex@alexmclain.com>
+Date: Thu, 13 Jun 2024 21:51:03 -0700
+Subject: [PATCH 1/2] Enable UART5 (ttyS0) on expansion header
+
+---
+ arch/arm64/boot/dts/ti/k3-am625-sk.dts | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-am625-sk.dts b/arch/arm64/boot/dts/ti/k3-am625-sk.dts
+index f9b7fa2e8156..d792b3142002 100644
+--- a/arch/arm64/boot/dts/ti/k3-am625-sk.dts
++++ b/arch/arm64/boot/dts/ti/k3-am625-sk.dts
+@@ -13,6 +13,10 @@ / {
+ 	compatible = "ti,am625-sk", "ti,am625";
+ 	model = "Texas Instruments AM625 SK";
+ 
++	aliases {
++		serial0 = &main_uart5;
++	};
++
+ 	opp-table {
+ 		/* Add 1.4GHz OPP for am625-sk board. Requires VDD_CORE to be at 0.85V */
+ 		opp-1400000000 {
+@@ -196,6 +200,13 @@ AM62X_IOPAD(0x11c, PIN_INPUT, 0) /* (#N/A) MMC2_CLKB */
+ 		>;
+ 	};
+ 
++	main_uart5_pins_default: main-uart5-pins-default {
++		pinctrl-single,pins = <
++			AM62X_IOPAD(0x01d8, PIN_INPUT, 1) /* (C15) MCAN0_TX.UART5_RXD */
++			AM62X_IOPAD(0x01dc, PIN_OUTPUT, 1) /* (E15) MCAN0_RX.UART5_TXD */
++		>;
++	};
++
+ 	main_wlirq_pins_default: main-wlirq-pins-default {
+ 		pinctrl-single,pins = <
+ 			AM62X_IOPAD(0x128, PIN_INPUT, 7) /* (B23) MMC2_SDWP.GPIO0_72 */
+@@ -232,6 +243,12 @@ exp1: gpio@22 {
+ 	};
+ };
+ 
++&main_uart5 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&main_uart5_pins_default>;
++};
++
+ &sdhci1 {
+ 	vmmc-supply = <&vdd_mmc1>;
+ 	vqmmc-supply = <&vdd_sd_dv>;
+-- 
+2.25.1
+
