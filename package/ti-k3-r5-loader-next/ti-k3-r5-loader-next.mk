@@ -35,15 +35,24 @@ TI_K3_R5_LOADER_NEXT_LICENSE_FILES = Licenses/gpl-2.0.txt
 TI_K3_R5_LOADER_NEXT_CPE_ID_VENDOR = denx
 TI_K3_R5_LOADER_NEXT_CPE_ID_PRODUCT = u-boot
 TI_K3_R5_LOADER_NEXT_INSTALL_IMAGES = YES
+# https://source.denx.de/u-boot/u-boot/-/blob/v2024.04/tools/binman/binman.rst?plain=1#L377
+# https://source.denx.de/u-boot/u-boot/-/blob/v2024.04/tools/buildman/requirements.txt
+# Make sure that all binman requirements are built before ti-k3-r5-loader.
 TI_K3_R5_LOADER_NEXT_DEPENDENCIES = \
 	host-pkgconf \
 	$(BR2_MAKE_HOST_DEPENDENCY) \
 	host-arm-gnu-toolchain \
 	host-openssl \
+	host-python3 \
 	host-python-attrs2 \
 	host-python-jsonschema2 \
-	host-python-pyrsistent2 \
+	host-python-jsonschema-specifications2 \
+	host-python-pyelftools \
+	host-python-pylibfdt \
 	host-python-pyyaml \
+	host-python-referencing2 \
+	host-python-setuptools \
+	host-python-yamllint2 \
 	ti-k3-boot-firmware-next
 
 TI_K3_R5_LOADER_NEXT_MAKE = $(BR2_MAKE)
@@ -59,20 +68,56 @@ TI_K3_R5_LOADER_NEXT_KCONFIG_DEFCONFIG = $(call qstrip,$(BR2_PACKAGE_TI_K3_R5_LO
 else ifeq ($(BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_USE_CUSTOM_CONFIG),y)
 TI_K3_R5_LOADER_NEXT_KCONFIG_FILE = $(call qstrip,$(BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_CUSTOM_CONFIG_FILE))
 endif # BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_USE_DEFCONFIG
-TI_K3_R5_LOADER_NEXT_MAKE_OPTS += \
+TI_K3_R5_LOADER_NEXT_MAKE_OPTS = \
 	CROSS_COMPILE=$(HOST_DIR)/bin/arm-none-eabi- \
 	ARCH=arm \
 	HOSTCC="$(HOSTCC) $(subst -I/,-isystem /,$(subst -I /,-isystem /,$(HOST_CFLAGS)))" \
 	HOSTLDFLAGS="$(HOST_LDFLAGS)" \
 	BINMAN_INDIRS=$(BINARIES_DIR)
 
+TI_K3_R5_LOADER_NEXT_TIBOOT3_BIN = $(call qstrip,$(BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_TIBOOT3_BIN))
+
+define TI_K3_R5_LOADER_NEXT_INSTALL_TIBOOT3_BIN
+	cp $(@D)/$(TI_K3_R5_LOADER_NEXT_TIBOOT3_BIN) $(BINARIES_DIR)/tiboot3.bin
+endef
+
+TI_K3_R5_LOADER_NEXT_SYSFW_ITB = $(call qstrip,$(BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_SYSFW_ITB))
+
+# sysfw*.itb are only generated for Split binary based Boot Flow (eg: am65, j721e).
+# So, if sysfw.itb symlink exist we must copy it or the custom sysfw.itb.
+define TI_K3_R5_LOADER_NEXT_INSTALL_SWSFW_ITB
+	if test -e $(@D)/sysfw.itb ; then \
+		cp $(@D)/$(TI_K3_R5_LOADER_NEXT_SYSFW_ITB) $(BINARIES_DIR)/sysfw.itb ; \
+	fi
+endef
+
+TI_K3_R5_LOADER_NEXT_CUSTOM_DTS_PATH = $(call qstrip,$(BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_CUSTOM_DTS_PATH))
+
 define TI_K3_R5_LOADER_NEXT_BUILD_CMDS
+	$(if $(TI_K3_R5_LOADER_NEXT_CUSTOM_DTS_PATH),
+		cp -f $(TI_K3_R5_LOADER_NEXT_CUSTOM_DTS_PATH) $(@D)/arch/arm/dts/
+	)
 	$(TARGET_CONFIGURE_OPTS) $(TI_K3_R5_LOADER_NEXT_MAKE) -C $(@D) $(TI_K3_R5_LOADER_NEXT_MAKE_OPTS)
 endef
 
 define TI_K3_R5_LOADER_NEXT_INSTALL_IMAGES_CMDS
-	cp $(@D)/tiboot3-*.bin $(BINARIES_DIR)/
-	cp $(@D)/tiboot3-am62x-hs-fs-evm.bin $(BINARIES_DIR)/tiboot3.bin
+	cp $(@D)/spl/u-boot-spl.bin $(BINARIES_DIR)/r5-u-boot-spl.bin
+	$(TI_K3_R5_LOADER_NEXT_INSTALL_TIBOOT3_BIN)
+	$(TI_K3_R5_LOADER_NEXT_INSTALL_SWSFW_ITB)
 endef
+
+# Checks to give errors that the user can understand
+# Must be before we call to kconfig-package
+ifeq ($(BR2_PACKAGE_TI_K3_R5_LOADER_NEXT)$(BR_BUILDING),yy)
+
+ifeq ($(TI_K3_R5_LOADER_NEXT_TIBOOT3_BIN),)
+$(error No custom tiboot3 name specified, check your BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_TIBOOT3_BIN setting)
+endif
+
+ifeq ($(TI_K3_R5_LOADER_NEXT_SYSFW_ITB),)
+$(error No custom sysfw name specified, check your BR2_PACKAGE_TI_K3_R5_LOADER_NEXT_SYSFW_ITB setting)
+endif
+
+endif # BR_BUILDING
 
 $(eval $(kconfig-package))

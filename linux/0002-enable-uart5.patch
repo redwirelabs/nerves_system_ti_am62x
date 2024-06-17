@@ -1,14 +1,14 @@
-From 3759718dbddccce6e8bab5f8b63e440e4f9c0473 Mon Sep 17 00:00:00 2001
+From c61f315324aa0632613fd09398bdfa8a8c289a3d Mon Sep 17 00:00:00 2001
 From: Alex McLain <alex@alexmclain.com>
-Date: Thu, 13 Jun 2024 21:51:03 -0700
-Subject: [PATCH 1/2] Enable UART5 (ttyS0) on expansion header
+Date: Sun, 16 Jun 2024 19:25:39 -0700
+Subject: [PATCH] Enable UART5 (ttyS0) on expansion header
 
 ---
  arch/arm64/boot/dts/ti/k3-am625-sk.dts | 17 +++++++++++++++++
  1 file changed, 17 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/ti/k3-am625-sk.dts b/arch/arm64/boot/dts/ti/k3-am625-sk.dts
-index f9b7fa2e8156..d792b3142002 100644
+index b18092497c9a..25467950e150 100644
 --- a/arch/arm64/boot/dts/ti/k3-am625-sk.dts
 +++ b/arch/arm64/boot/dts/ti/k3-am625-sk.dts
 @@ -13,6 +13,10 @@ / {
@@ -22,7 +22,7 @@ index f9b7fa2e8156..d792b3142002 100644
  	opp-table {
  		/* Add 1.4GHz OPP for am625-sk board. Requires VDD_CORE to be at 0.85V */
  		opp-1400000000 {
-@@ -196,6 +200,13 @@ AM62X_IOPAD(0x11c, PIN_INPUT, 0) /* (#N/A) MMC2_CLKB */
+@@ -141,6 +145,13 @@ AM62X_IOPAD(0x008, PIN_INPUT, 0) /* (J24) OSPI0_DQS */
  		>;
  	};
  
@@ -33,10 +33,10 @@ index f9b7fa2e8156..d792b3142002 100644
 +		>;
 +	};
 +
- 	main_wlirq_pins_default: main-wlirq-pins-default {
+ 	vdd_sd_dv_pins_default: vdd-sd-dv-default-pins {
+ 		bootph-all;
  		pinctrl-single,pins = <
- 			AM62X_IOPAD(0x128, PIN_INPUT, 7) /* (B23) MMC2_SDWP.GPIO0_72 */
-@@ -232,6 +243,12 @@ exp1: gpio@22 {
+@@ -195,6 +206,12 @@ exp1: gpio@22 {
  	};
  };
  

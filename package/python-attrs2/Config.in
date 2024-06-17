@@ -1,5 +1,5 @@
 config BR2_PACKAGE_PYTHON_ATTRS2
-	bool "python-attrs"
+	bool "python-attrs2"
 	help
 	  attrs is the Python package that will bring back the joy of
 	  writing classes by relieving you from the drudgery of
