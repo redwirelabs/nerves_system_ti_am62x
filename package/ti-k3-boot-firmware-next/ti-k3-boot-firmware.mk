@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-TI_K3_BOOT_FIRMWARE_NEXT_VERSION = 10.00.04
+TI_K3_BOOT_FIRMWARE_NEXT_VERSION = 10.00.06
 TI_K3_BOOT_FIRMWARE_NEXT_SITE = https://git.ti.com/cgit/processor-firmware/ti-linux-firmware/snapshot
 TI_K3_BOOT_FIRMWARE_NEXT_SOURCE = ti-linux-firmware-$(TI_K3_BOOT_FIRMWARE_NEXT_VERSION).tar.gz
 TI_K3_BOOT_FIRMWARE_NEXT_INSTALL_IMAGES = YES
