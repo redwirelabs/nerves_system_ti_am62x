@@ -13,7 +13,3 @@ ln -sf ops.fw $TARGET_DIR/usr/share/fwup/revert.fw
 
 # Copy the fwup includes to the images dir
 cp -rf $NERVES_DEFCONFIG_DIR/fwup_include $BINARIES_DIR
-
-# Store the Linux kernel in the FAT filesystem instead of /boot due to
-# squashfs performance.
-rm -f $TARGET_DIR/boot/zImage
