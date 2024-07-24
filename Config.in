@@ -7,5 +7,3 @@ source "$NERVES_DEFCONFIG_DIR/package/python-yamllint2/Config.in"
 source "$NERVES_DEFCONFIG_DIR/package/ti-k3-boot-firmware-next/Config.in"
 source "$NERVES_DEFCONFIG_DIR/package/ti-k3-r5-loader-next/Config.in"
 source "$NERVES_DEFCONFIG_DIR/package/ti-k3-secdev/Config.in"
-
-source "$BR2_EXTERNAL_REDWIRE_PACKAGES_PATH/Config.in"

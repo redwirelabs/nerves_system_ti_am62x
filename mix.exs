@@ -63,7 +63,8 @@ defmodule NervesSystemAM62X.MixProject do
 
   defp deps do
     [
-      {:nerves, "~> 1.6.0 or ~> 1.7.15 or ~> 1.8", runtime: false},
+      # {:nerves, "~> 1.6.0 or ~> 1.7.15 or ~> 1.8", runtime: false},
+      {:nerves, path: "../nerves", runtime: false, override: true},
       # {:nerves_system_br, "1.27.3", runtime: false},
       {:nerves_system_br, path: "../nerves_system_br", runtime: false},
       {:nerves_toolchain_aarch64_nerves_linux_gnu, "~> 13.2.0", runtime: false},
