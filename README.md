@@ -1,7 +1,5 @@
 # TI AM62X aka AM62XX-EVM
 
-**This is a work in progress.**
-
 This is the base Nerves System configuration for the [TI AM62X](#sk-am62).
 
 ![AM62X](assets/images/am62xx-evm.png)
